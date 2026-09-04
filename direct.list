@@ -1,0 +1,11 @@
+# Loon: direct / CN -> DIRECT
+DOMAIN,macked.app
+DOMAIN-SUFFIX,ke.com
+DOMAIN-SUFFIX,cn
+DOMAIN-KEYWORD,macqimw.cn
+DOMAIN-KEYWORD,reasonix.io
+IP-CIDR,172.80.0.0/16
+DOMAIN-KEYWORD,mimo.ai
+DOMAIN-KEYWORD,yinhai.com
+DOMAIN-SUFFIX,apple.com
+DOMAIN-KEYWORD,yinhaiyun.com
