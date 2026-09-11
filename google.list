@@ -1,4 +1,5 @@
-# Loon: Google / Gemini / Gmail -> 谷歌全家桶
+# Loon: Google / Gemini -> 谷歌全家桶
+# Gmail IMAP/SMTP 已拆到 gmail.list，不要再写进这里
 DOMAIN-SUFFIX,gemini.google.com
 DOMAIN-SUFFIX,gemini.google
 DOMAIN-SUFFIX,aistudio.google.com
@@ -17,11 +18,6 @@ DOMAIN-SUFFIX,gstatic.com
 DOMAIN-SUFFIX,googleusercontent.com
 DOMAIN-SUFFIX,usercontent.goog
 DOMAIN-SUFFIX,withgoogle.com
-DOMAIN,imap.gmail.com
-DOMAIN,smtp.gmail.com
-DOMAIN,pop.gmail.com
-DOMAIN-SUFFIX,gmail.com
-DOMAIN-SUFFIX,googlemail.com
 DOMAIN-SUFFIX,google.cn
 DOMAIN,accounts.google.cn
 DOMAIN-SUFFIX,g.cn
