@@ -1,0 +1,9 @@
+# Loon: Gmail IMAP/SMTP/POP -> ✉️ 谷歌邮件
+# 必须从谷歌全家桶拆出。全家桶默认台湾，Mail.app 走 IMAP/SMTP 会出现 SSL 错误。
+DOMAIN,imap.gmail.com
+DOMAIN,smtp.gmail.com
+DOMAIN,pop.gmail.com
+DOMAIN,smtp-relay.gmail.com
+DOMAIN-SUFFIX,gmail.com
+DOMAIN-SUFFIX,googlemail.com
+DOMAIN-KEYWORD,gmail
