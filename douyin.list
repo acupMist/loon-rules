@@ -1,0 +1,38 @@
+# Loon: 抖音国内 -> 抖音策略
+# 不含 TikTok 共用域：snssdk.com / muscdn.com / isnssdk.com / ibyteimg.com / byteoversea.com / ipstatp.com
+# 也不要写 DOMAIN-KEYWORD,snssdk / byteimg / bytedance —— 会把 TikTok 接口吃进抖音组
+DOMAIN-SUFFIX,douyin.com
+DOMAIN-SUFFIX,douyinvod.com
+DOMAIN-SUFFIX,douyincdn.com
+DOMAIN-SUFFIX,douyinpic.com
+DOMAIN-SUFFIX,douyinstatic.com
+DOMAIN-SUFFIX,idouyinvod.com
+DOMAIN-SUFFIX,amemv.com
+DOMAIN-SUFFIX,amemv.cn
+DOMAIN-SUFFIX,toutiao.com
+DOMAIN-SUFFIX,toutiaoapi.com
+DOMAIN-SUFFIX,toutiaocloud.com
+DOMAIN-SUFFIX,ixigua.com
+DOMAIN-SUFFIX,ixiguavideo.com
+DOMAIN,lf3-static.bytednsdoc.com
+DOMAIN,v5-dy-o-abtest.zjcdn.com
+DOMAIN-SUFFIX,byteimg.com
+DOMAIN-SUFFIX,byteimg.cn
+DOMAIN-SUFFIX,bytetos.com
+DOMAIN-SUFFIX,bytedance.com
+DOMAIN-SUFFIX,bytedance.net
+DOMAIN-SUFFIX,bytedanceapi.com
+DOMAIN-SUFFIX,byted.org
+DOMAIN-SUFFIX,ibytedapm.com
+DOMAIN-SUFFIX,bytegecko.com
+DOMAIN-SUFFIX,zijieapi.com
+DOMAIN-SUFFIX,zijieimg.com
+DOMAIN-SUFFIX,pstatp.com
+DOMAIN-SUFFIX,pstatp-byteimg.com
+DOMAIN-SUFFIX,volccdn.com
+DOMAIN-SUFFIX,volces.com
+DOMAIN-SUFFIX,ttlivecdn.com
+DOMAIN-SUFFIX,tlivecdn.com
+DOMAIN-KEYWORD,douyin
+DOMAIN-KEYWORD,amemv
+DOMAIN-KEYWORD,zijie

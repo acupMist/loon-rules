@@ -1,0 +1,11 @@
+# Loon: Anthropic / Claude -> 其余AI（或独立 Claude 组）
+# 不要订阅 yfamilys.com/rule/ai.list：那份会把 stripe/sentry/bing 和 DigitalOcean/Vultr 整段 ASN 带走
+DOMAIN-SUFFIX,anthropic.com
+DOMAIN-SUFFIX,anthropic.com.cn
+DOMAIN-SUFFIX,claude.ai
+DOMAIN-SUFFIX,claude.com
+DOMAIN-SUFFIX,claudeusercontent.com
+DOMAIN-SUFFIX,antspace.dev
+DOMAIN,anthropic.auth0.com
+DOMAIN,cdn.usefathom.com
+DOMAIN,servd-anthropic-website.b-cdn.net

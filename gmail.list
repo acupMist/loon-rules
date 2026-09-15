@@ -1,5 +1,8 @@
 # Loon: Gmail IMAP/SMTP/POP -> ✉️ 谷歌邮件
-# 必须从谷歌全家桶拆出。全家桶默认台湾，Mail.app 走 IMAP/SMTP 会出现 SSL 错误。
+# 必须从谷歌全家桶拆出。全家桶默认台湾时，Mail.app 走 IMAP/SMTP 会出现 SSL 错误。
+# 订阅时把本 list 放在 google.list / blackmatrix7 Google.list 之前
+DOMAIN,mail.google.com
+DOMAIN,gmail.googleapis.com
 DOMAIN,imap.gmail.com
 DOMAIN,smtp.gmail.com
 DOMAIN,pop.gmail.com
