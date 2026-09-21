@@ -2,7 +2,7 @@
 #!desc=米游社原神每日签到（国服）+ Cookie 捕获。捕获成功后请在插件参数关闭「启用捕获」。
 #!author=acupMist
 #!homepage=https://github.com/acupMist/loon-rules
-#!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Available.png
+#!icon=https://enka.network/ui/UI_AvatarIcon_Nefer.png
 
 [Argument]
 cron=input, "0 9 * * *", tag=签到时间, desc=CRON 表达式，默认每天 9:00
