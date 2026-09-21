@@ -25,6 +25,26 @@ TikTok 不要用本仓库，继续用 kelee / blackmatrix7 的 TikTok 列表，�
 
 不要再用 `https://yfamilys.com/rule/ai.list` 当「其余 AI」：那份会把 `stripe.com`、`sentry.io`、`www.bing.com`、`challenges.cloudflare.com` 以及 DigitalOcean / Vultr 整段 ASN 送去美国。Claude 用本仓库 `claude.list`。
 
+## 国内慢的常见原因与推荐本地规则
+
+Loon 匹配顺序：**本地规则 > 插件规则 > 远程订阅**。
+
+若 `FINAL` 指向代理（例如 `美国自动场景`），而 `direct.list` 又较薄，未命中的国内域名/IP 会绕代理变慢。
+
+推荐本地 `[Rule]`（**不要把 FINAL 改成 DIRECT**）：
+
+```
+DOMAIN-SUFFIX,yinhaiyun.com,DIRECT
+GEOIP,CN,DIRECT
+FINAL,美国自动场景
+```
+
+`GEOIP,CN,DIRECT` 只能写在本地规则里，不能放进远程 list。
+
+`[Remote Rule]` 建议顺序：LAN / CN REGION / `direct.list` 靠前 → 业务代理列表 → 广告列表靠后。
+
+---
+
 ## iOS `[Remote Rule]` 示例
 
 把 Gmail 放在 Google 前面；抖音放在 TikTok 前面。
