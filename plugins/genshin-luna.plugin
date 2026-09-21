@@ -1,0 +1,17 @@
+#!name=原神签到
+#!desc=米游社原神每日签到（国服）+ Cookie 捕获。捕获成功后请在插件参数关闭「启用捕获」。
+#!author=acupMist
+#!homepage=https://github.com/acupMist/loon-rules
+#!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Available.png
+
+[Argument]
+cron=input, "0 9 * * *", tag=签到时间, desc=CRON 表达式，默认每天 9:00
+notify=switch, true, tag=签到通知, desc=是否发送签到结果通知
+capture=switch, true, tag=启用捕获, desc=关闭后不再拦截/保存 Cookie（建议捕获成功后关掉）
+
+[MITM]
+hostname = api-takumi.mihoyo.com, passport-api.mihoyo.com, act.mihoyo.com
+
+[Script]
+cron {cron} script-path=https://raw.githubusercontent.com/acupMist/loon-rules/main/scripts/genshin-luna-sign.js?v=20260921c, timeout=60, tag=原神签到, argument=[{notify}]
+http-request ^https:\/\/(api-takumi\.mihoyo\.com\/event\/luna\/hk4e\/|passport-api\.mihoyo\.com\/account\/ma-cn-session|act\.mihoyo\.com\/bbs\/event\/signin) script-path=https://raw.githubusercontent.com/acupMist/loon-rules/main/scripts/genshin-cookie-capture.js?v=20260921c, requires-body=false, timeout=10, tag=原神Cookie捕获, argument=[{capture}]
