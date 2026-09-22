@@ -14,4 +14,4 @@ hostname = api-takumi.mihoyo.com, passport-api.mihoyo.com, act.mihoyo.com
 
 [Script]
 cron {cron} script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/genshin-luna-sign.js, timeout=60, tag=原神签到, argument=[{notify}]
-http-request ^https:\/\/(api-takumi\.mihoyo\.com\/event\/luna\/hk4e\/|passport-api\.mihoyo\.com\/account\/ma-cn-session|act\.mihoyo\.com\/bbs\/event\/signin) script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/genshin-cookie-capture.js, requires-body=false, timeout=10, tag=原神Cookie捕获, argument=[{capture}]
+http-request ^https:\/\/(api-takumi\.mihoyo\.com\/event\/luna\/hk4e\/|passport-api\.mihoyo\.com\/account\/ma-cn-session|act\.mihoyo\.com\/bbs\/event\/signin) script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/genshin-cookie-capture.js, requires-body=false, timeout=10, tag=原神Cookie捕获, argument=[{capture}], enable={capture}

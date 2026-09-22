@@ -29,13 +29,37 @@ function log() {
 }
 
 /**
- * 仅当显式 false/0/off/no/关闭 时关闭；缺省 / 未找到 key → 默认开启。
+ * 读取插件开关。Loon 新版常把 $argument 传成对象（$argument.capture），
+ * 旧版可能是 "false" / "[false]" / "capture=false"。
+ * 仅当显式 false/0/off/no/关闭 时关闭。
  */
 function parseArgFlag(arg, key, defaultTrue) {
   if (arg == null || arg === "") {
     log("parseArgFlag", key, "empty arg →", !!defaultTrue);
     return !!defaultTrue;
   }
+
+  // Loon 官方：$argument 为对象，用 $argument.capture / $argument.notify
+  if (typeof arg === "object" && !Array.isArray(arg)) {
+    if (key in arg) {
+      var ov = arg[key];
+      var ot = String(ov == null ? "" : ov).trim().toLowerCase().replace(/^\[|\]$/g, "");
+      if (ot === "false" || ot === "0" || ot === "off" || ot === "no" || ot === "关闭") {
+        log("parseArgFlag", key, "object OFF, val=", ot);
+        return false;
+      }
+      log("parseArgFlag", key, "object ON, val=", ot);
+      return true;
+    }
+    log("parseArgFlag", key, "object missing key, default →", !!defaultTrue);
+    return !!defaultTrue;
+  }
+
+  if (typeof arg === "boolean") {
+    log("parseArgFlag", key, "boolean →", arg);
+    return arg;
+  }
+
   var s = String(arg).trim();
   var v = null;
   var found = false;
@@ -97,6 +121,7 @@ function parseArgFlag(arg, key, defaultTrue) {
   log("parseArgFlag", key, "ON (val=", t, ")");
   return true;
 }
+
 
 function notify(title, subtitle, body) {
   var t = title || "";
@@ -167,8 +192,9 @@ function headerGet(headers, name) {
 
 var RAW_ARGUMENT = typeof $argument !== "undefined" ? $argument : "";
 log("boot: capture script loaded");
-log("raw $argument =", String(RAW_ARGUMENT));
+log("raw $argument =", typeof RAW_ARGUMENT === "object" ? JSON.stringify(RAW_ARGUMENT) : String(RAW_ARGUMENT));
 log("typeof $argument =", typeof RAW_ARGUMENT);
+if (typeof RAW_ARGUMENT === "object" && RAW_ARGUMENT && "capture" in RAW_ARGUMENT) log("$argument.capture =", RAW_ARGUMENT.capture);
 
 var CAPTURE_ENABLED = parseArgFlag(RAW_ARGUMENT, "capture", true);
 log("CAPTURE_ENABLED =", CAPTURE_ENABLED);
