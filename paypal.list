@@ -1,0 +1,18 @@
+# Loon: PayPal / Braintree -> PayPal 策略组
+# 不收录仿冒钓鱼域；中国区 anfutong.* 走 GEOIP/直连即可，勿强行代理
+DOMAIN-SUFFIX,paypal.com
+DOMAIN-SUFFIX,paypal.me
+DOMAIN-SUFFIX,paypalobjects.com
+DOMAIN-SUFFIX,paypal-objects.com
+DOMAIN-SUFFIX,paypalobject.com
+DOMAIN-SUFFIX,paypal-community.com
+DOMAIN-SUFFIX,paypalcorp.com
+DOMAIN-SUFFIX,venmo.com
+DOMAIN-SUFFIX,braintreegateway.com
+DOMAIN-SUFFIX,braintreepayments.com
+DOMAIN-SUFFIX,braintreepaymentsolutions.com
+DOMAIN-SUFFIX,braintreeps.com
+DOMAIN-SUFFIX,card.io
+DOMAIN,py.pl
+DOMAIN-SUFFIX,py.pl
+DOMAIN-KEYWORD,paypal

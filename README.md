@@ -19,6 +19,7 @@ Loon 远程分流规则，按业务拆开订阅。本地 `[Rule]` 只留 `FINAL`
 | `douyin.list` | 抖音国内，**不含 TikTok 共用域** | `抖音策略`（家里可 DIRECT） |
 | `qqmusic.list` | QQ 音乐 | `QQ` |
 | `devproxy.list` | Docker / JetBrains | `🚀 策略选择` |
+| `paypal.list` | PayPal / Braintree / Venmo 核心域 | `PayPal` |
 | `direct.list` | 银海、Apple、部分国内直连 | `DIRECT` |
 
 TikTok 不要用本仓库，继续用 kelee / blackmatrix7 的 TikTok 列表，并排在 `douyin.list` **之后**（本地规则若再写 `DOMAIN-KEYWORD,snssdk` 仍会抢走 TikTok）。
@@ -53,6 +54,7 @@ FINAL,美国自动场景
 https://raw.githubusercontent.com/acupMist/loon-rules/main/gmail.list, policy=✉️ 谷歌邮件, tag=谷歌邮件, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/google.list, policy=谷歌全家桶, tag=谷歌本地, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/openai.list, policy=OpenAI, tag=OpenAI本地, enabled=true
+https://raw.githubusercontent.com/acupMist/loon-rules/main/paypal.list, policy=PayPal, tag=PayPal, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/grok.list, policy=Grok, tag=Grok, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/claude.list, policy=其余AI, tag=Claude, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/cursor.list, policy=美国手动策略, tag=Cursor, enabled=true
