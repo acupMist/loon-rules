@@ -72,22 +72,90 @@ DOMAIN-SUFFIX,dingtalk.com
 DOMAIN-SUFFIX,douban.com
 DOMAIN-SUFFIX,smzdm.com
 DOMAIN-SUFFIX,suning.com
-DOMAIN-SUFFIX,iqiyi.com
 DOMAIN-SUFFIX,xiaomimimo.com
 
-# 银行（中行等非 .cn 后缀易落到 FINAL→代理）
-DOMAIN-SUFFIX,bankofchina.com
+# 银行直连（各大行/股份行/主要城商行/消金；.cn 虽已被 DOMAIN-SUFFIX,cn 覆盖，
+# 仍显式列出，避免规则集顺序变化或非 .cn 域名落到 FINAL→代理）
+#
+# --- 国有大行 ---
 DOMAIN-SUFFIX,boc.cn
-DOMAIN-SUFFIX,abchina.com
+DOMAIN-SUFFIX,bankofchina.com
 DOMAIN-SUFFIX,icbc.com.cn
+DOMAIN-SUFFIX,95588.com
 DOMAIN-SUFFIX,ccb.com
-DOMAIN-SUFFIX,cmbchina.com
-DOMAIN-SUFFIX,psbc.com
+DOMAIN-SUFFIX,ccb.com.cn
+DOMAIN-SUFFIX,abchina.com
+DOMAIN-SUFFIX,95599.com
 DOMAIN-SUFFIX,bankcomm.com
-DOMAIN-SUFFIX,spdb.com.cn
+DOMAIN-SUFFIX,95559.com.cn
+DOMAIN-SUFFIX,psbc.com
+DOMAIN-SUFFIX,psbc.com.cn
+#
+# --- 全国性股份制 ---
+DOMAIN-SUFFIX,cmbchina.com
+DOMAIN-SUFFIX,cmbchina.cn
+DOMAIN-SUFFIX,cmbimg.com
+DOMAIN-SUFFIX,95555.com
 DOMAIN-SUFFIX,citicbank.com
+DOMAIN-SUFFIX,citicbank.cn
+DOMAIN-SUFFIX,cebbank.com
+DOMAIN-SUFFIX,cebbank.cn
 DOMAIN-SUFFIX,cmbc.com.cn
 DOMAIN-SUFFIX,cib.com.cn
-DOMAIN-SUFFIX,cebbank.com
-DOMAIN-SUFFIX,unionpay.com
-DOMAIN-SUFFIX,95516.com
+DOMAIN-SUFFIX,95561.com
+DOMAIN-SUFFIX,spdb.com.cn
+DOMAIN-SUFFIX,spdb.com
+DOMAIN-SUFFIX,hxb.com.cn
+DOMAIN-SUFFIX,cgbchina.com.cn
+DOMAIN-SUFFIX,95508.com
+DOMAIN-SUFFIX,pingan.com
+DOMAIN-SUFFIX,pingan.com.cn
+DOMAIN-SUFFIX,pinganusercontent.com
+DOMAIN-SUFFIX,1qianbao.com
+DOMAIN-SUFFIX,yqb.com
+DOMAIN-SUFFIX,czbank.com
+DOMAIN-SUFFIX,czbank.com.cn
+DOMAIN-SUFFIX,cbhb.com.cn
+DOMAIN-SUFFIX,hfbank.com.cn
+DOMAIN-SUFFIX,bjbank.com.cn
+#
+# --- 主要城商行 / 农商 ---
+DOMAIN-SUFFIX,bankofbeijing.com.cn
+DOMAIN-SUFFIX,bankofshanghai.com
+DOMAIN-SUFFIX,bosc.cn
+DOMAIN-SUFFIX,jsbchina.com
+DOMAIN-SUFFIX,njcb.com.cn
+DOMAIN-SUFFIX,nbcb.com.cn
+DOMAIN-SUFFIX,hccb.com.cn
+DOMAIN-SUFFIX,hzbank.com.cn
+DOMAIN-SUFFIX,cdcbank.com.cn
+DOMAIN-SUFFIX,cqcbank.com
+DOMAIN-SUFFIX,tccb.com.cn
+DOMAIN-SUFFIX,dalian-bank.com
+DOMAIN-SUFFIX,qlbchina.com
+DOMAIN-SUFFIX,gzcb.com.cn
+DOMAIN-SUFFIX,xmccb.com
+DOMAIN-SUFFIX,hrbb.com.cn
+DOMAIN-SUFFIX,ordosbank.com
+DOMAIN-SUFFIX,fjnx.com.cn
+DOMAIN-SUFFIX,szrcb.com
+DOMAIN-SUFFIX,bjrcb.com
+DOMAIN-SUFFIX,shrcb.com
+DOMAIN-SUFFIX,grcbank.com
+#
+# --- 民营银行 / 直销 / 消金常见 ---
+DOMAIN-SUFFIX,webank.com
+DOMAIN-SUFFIX,mybank.cn
+DOMAIN-SUFFIX,aibank.com
+DOMAIN-SUFFIX,snbchina.com
+DOMAIN-SUFFIX,xib.com.cn
+DOMAIN-SUFFIX,klb.com.cn
+DOMAIN-SUFFIX,yillionbank.com
+DOMAIN-SUFFIX,shengjingbank.com.cn
+#
+# --- 银联 / 网联 / 清算 ---
+DOMAIN-SUFFIX,unionpaysecure.com
+DOMAIN-SUFFIX,chinapay.com
+DOMAIN-SUFFIX,nucc.com
+DOMAIN-SUFFIX,netunion.com
+DOMAIN-SUFFIX,cfca.com.cn
