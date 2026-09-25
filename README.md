@@ -11,7 +11,8 @@ Loon 远程分流规则，按业务拆开订阅。本地 `[Rule]` 只留 `FINAL`
 | 文件 | 用途 | 建议策略 |
 |---|---|---|
 | `gmail.list` | Gmail IMAP/SMTP/POP、`mail.google.com` | `✉️ 谷歌邮件`（不要跟全家桶同一出口） |
-| `google.list` | Google / Gemini，**不含 Gmail** | `谷歌全家桶` |
+| `gemini.list` | Gemini / AI Studio + 同出口依赖（accounts / googleapis / gstatic） | `Gemini出口`（家宽优先） |
+| `google.list` | Google 通用域，**不含 Gmail、不含 Gemini 专用** | 打 Gemini 时也绑 `Gemini出口`；否则 `谷歌全家桶` |
 | `openai.list` | ChatGPT / Sora | `OpenAI` |
 | `grok.list` | xAI / X / Meta AI / SpaceX | `Grok` |
 | `claude.list` | Anthropic / Claude，不含支付/验证码/云厂商 ASN | `其余AI` 或独立 Claude 组 |
@@ -21,6 +22,8 @@ Loon 远程分流规则，按业务拆开订阅。本地 `[Rule]` 只留 `FINAL`
 | `devproxy.list` | Docker / JetBrains | `🚀 策略选择` |
 | `paypal.list` | PayPal / Braintree / Venmo 核心域 | `PayPal` |
 | `direct.list` | 银海、Apple、部分国内直连 | `DIRECT` |
+
+打 Gemini 时务必让 `gemini.list` 与 `google.list` **同一出口（家宽）**；只把 `gemini.google.com` 走家宽、登录/API 走日本节点，会被判区域限制。
 
 TikTok 不要用本仓库，继续用 kelee / blackmatrix7 的 TikTok 列表，并排在 `douyin.list` **之后**（本地规则若再写 `DOMAIN-KEYWORD,snssdk` 仍会抢走 TikTok）。
 
@@ -52,7 +55,8 @@ FINAL,美国自动场景
 
 ```
 https://raw.githubusercontent.com/acupMist/loon-rules/main/gmail.list, policy=✉️ 谷歌邮件, tag=谷歌邮件, enabled=true
-https://raw.githubusercontent.com/acupMist/loon-rules/main/google.list, policy=谷歌全家桶, tag=谷歌本地, enabled=true
+https://raw.githubusercontent.com/acupMist/loon-rules/main/gemini.list, policy=Gemini出口, tag=Gemini, enabled=true
+https://raw.githubusercontent.com/acupMist/loon-rules/main/google.list, policy=Gemini出口, tag=谷歌本地, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/openai.list, policy=OpenAI, tag=OpenAI本地, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/paypal.list, policy=PayPal, tag=PayPal, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/grok.list, policy=Grok, tag=Grok, enabled=true

@@ -1,0 +1,33 @@
+# Loon: Gemini + 同出口依赖（登录 / API / 静态资源）
+# 建议策略: Gemini出口（首选家宽）。Gmail 仍用 gmail.list，不要绑到这里
+# 原因: 页面走家宽、accounts/googleapis 走日本节点时，Google 会判区域限制
+
+# —— Gemini / AI Studio / DeepMind ——
+DOMAIN-SUFFIX,gemini.google.com
+DOMAIN-SUFFIX,gemini.google
+DOMAIN-SUFFIX,aistudio.google.com
+DOMAIN,alkali.m.google.com
+DOMAIN,alkalimakersuite-pa.clients6.google.com
+DOMAIN,makersuite.google.com
+DOMAIN,ai.google.dev
+DOMAIN-SUFFIX,bard.google.com
+DOMAIN-SUFFIX,deepmind.com
+DOMAIN-SUFFIX,deepmind.google
+DOMAIN-SUFFIX,generativeai.google
+DOMAIN,generativelanguage.googleapis.com
+DOMAIN,daily-cloudcode-pa.googleapis.com
+DOMAIN-SUFFIX,cloudcode-pa.googleapis.com
+DOMAIN-SUFFIX,proactivebackend-pa.googleapis.com
+DOMAIN-SUFFIX,apis.google.com
+DOMAIN-KEYWORD,generativelanguage
+DOMAIN-KEYWORD,colab
+DOMAIN-KEYWORD,developerprofiles
+
+# —— 必须与 Gemini 同出口（鉴权 / API / CDN）——
+DOMAIN,accounts.google.com
+DOMAIN,oauth2.googleapis.com
+DOMAIN,www.googleapis.com
+DOMAIN-SUFFIX,googleapis.com
+DOMAIN-SUFFIX,gstatic.com
+DOMAIN-SUFFIX,googleusercontent.com
+DOMAIN-SUFFIX,usercontent.goog
