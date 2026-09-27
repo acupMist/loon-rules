@@ -14,7 +14,7 @@ Loon 远程分流规则，按业务拆开订阅。本地 `[Rule]` 只留 `FINAL`
 | `gemini.list` | Gemini / AI Studio + 同出口依赖（accounts / googleapis / gstatic） | `Gemini出口`（家宽优先） |
 | `google.list` | Google 通用域，**不含 Gmail、不含 Gemini 专用** | 打 Gemini 时也绑 `Gemini出口`；否则 `谷歌全家桶` |
 | `openai.list` | ChatGPT / Sora | `OpenAI` |
-| `grok.list` | xAI / X / SpaceX（不含 Meta Muse） | `Grok` |
+| `grok.list` | xAI / X / SpaceX（**不含** meta.ai） | `Grok` |
 | `muse.list` | Meta Muse / Meta AI（美国限定） | `Muse`（美国优先；勿绑 Grok/日本） |
 | `claude.list` | Anthropic / Claude，不含支付/验证码/云厂商 ASN | `其余AI` 或独立 Claude 组 |
 | `cursor.list` | Cursor / Anysphere | `美国手动策略` |
@@ -24,6 +24,8 @@ Loon 远程分流规则，按业务拆开订阅。本地 `[Rule]` 只留 `FINAL`
 | `paypal.list` | PayPal / Braintree / Venmo 核心域 | `PayPal` |
 | `direct.list` | 银海、Apple、部分国内直连 | `DIRECT` |
 
+
+**重要：** `grok.list` 已去掉 `meta.ai`；若旧缓存仍命中 Grok，请刷新远程规则或把 `muse.list` 排在 `grok.list` 之前。
 
 Meta Muse 必须美国出口：订 `muse.list` → `Muse`，并把原先绑到 Grok 的 `meta-ai.list` 改绑 `Muse` 或关掉（本仓库 `muse.list` 已覆盖）。
 

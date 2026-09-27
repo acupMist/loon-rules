@@ -1,14 +1,15 @@
 # Loon: Meta Muse / Meta AI（美国限定）
-# 建议策略: Muse（首选美国）。不要跟 Grok/日本出口混用，否则会提示地域限制
-# Gmail / Facebook 主站仍走各自规则；此处覆盖 Muse 与 Meta AI 同出口依赖
+# 建议策略: Muse（首选美国）。不要跟 Grok/日本出口混用，否则会地域限制或 Model API unavailable
+# Gmail 仍独立；Facebook 登录页可走美国出口（见本地规则）
 
 # —— Muse ——
 DOMAIN-SUFFIX,muse.ai
-DOMAIN,introducing.muse.ai
-DOMAIN,security.muse.ai
 
-# —— Meta AI / Llama（与 Muse 同产品线，需同出口）——
+# —— Meta AI / Model API / Llama（与 Muse 同出口）——
 DOMAIN-SUFFIX,meta.ai
+DOMAIN,dev.meta.ai
+DOMAIN,auth.meta.ai
+DOMAIN,www.meta.ai
 DOMAIN,ai.meta.com
 DOMAIN,ai.developer.meta.com
 DOMAIN,aidemos.meta.com

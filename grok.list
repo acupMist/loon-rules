@@ -1,4 +1,5 @@
-# Loon: xAI / X-Twitter / Meta AI / SpaceX -> Grok
+# Loon: xAI / X-Twitter / SpaceX -> Grok
+# Meta Muse / Meta AI 已拆到 muse.list（美国出口），不要再绑 Grok/日本
 DOMAIN-SUFFIX,grok.com
 DOMAIN-SUFFIX,x.ai
 DOMAIN-SUFFIX,grok.x.com
@@ -7,7 +8,4 @@ DOMAIN-SUFFIX,x.com
 DOMAIN-SUFFIX,twitter.com
 DOMAIN-SUFFIX,t.co
 DOMAIN-SUFFIX,twimg.com
-DOMAIN-SUFFIX,meta.ai
-DOMAIN,ai.meta.com
-DOMAIN-SUFFIX,llama.com
 DOMAIN-SUFFIX,spacex.com
