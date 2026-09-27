@@ -14,7 +14,8 @@ Loon 远程分流规则，按业务拆开订阅。本地 `[Rule]` 只留 `FINAL`
 | `gemini.list` | Gemini / AI Studio + 同出口依赖（accounts / googleapis / gstatic） | `Gemini出口`（家宽优先） |
 | `google.list` | Google 通用域，**不含 Gmail、不含 Gemini 专用** | 打 Gemini 时也绑 `Gemini出口`；否则 `谷歌全家桶` |
 | `openai.list` | ChatGPT / Sora | `OpenAI` |
-| `grok.list` | xAI / X / Meta AI / SpaceX | `Grok` |
+| `grok.list` | xAI / X / SpaceX（不含 Meta Muse） | `Grok` |
+| `muse.list` | Meta Muse / Meta AI（美国限定） | `Muse`（美国优先；勿绑 Grok/日本） |
 | `claude.list` | Anthropic / Claude，不含支付/验证码/云厂商 ASN | `其余AI` 或独立 Claude 组 |
 | `cursor.list` | Cursor / Anysphere | `美国手动策略` |
 | `douyin.list` | 抖音国内，**不含 TikTok 共用域** | `抖音策略`（家里可 DIRECT） |
@@ -22,6 +23,9 @@ Loon 远程分流规则，按业务拆开订阅。本地 `[Rule]` 只留 `FINAL`
 | `devproxy.list` | Docker / JetBrains | `🚀 策略选择` |
 | `paypal.list` | PayPal / Braintree / Venmo 核心域 | `PayPal` |
 | `direct.list` | 银海、Apple、部分国内直连 | `DIRECT` |
+
+
+Meta Muse 必须美国出口：订 `muse.list` → `Muse`，并把原先绑到 Grok 的 `meta-ai.list` 改绑 `Muse` 或关掉（本仓库 `muse.list` 已覆盖）。
 
 打 Gemini 时务必让 `gemini.list` 与 `google.list` **同一出口（家宽）**；只把 `gemini.google.com` 走家宽、登录/API 走日本节点，会被判区域限制。
 
@@ -60,6 +64,7 @@ https://raw.githubusercontent.com/acupMist/loon-rules/main/google.list, policy=G
 https://raw.githubusercontent.com/acupMist/loon-rules/main/openai.list, policy=OpenAI, tag=OpenAI本地, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/paypal.list, policy=PayPal, tag=PayPal, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/grok.list, policy=Grok, tag=Grok, enabled=true
+https://raw.githubusercontent.com/acupMist/loon-rules/main/muse.list, policy=Muse, tag=Muse, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/claude.list, policy=其余AI, tag=Claude, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/cursor.list, policy=美国手动策略, tag=Cursor, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/douyin.list, policy=抖音策略, tag=抖音, enabled=true
