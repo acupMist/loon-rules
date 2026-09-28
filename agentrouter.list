@@ -1,0 +1,11 @@
+# Loon: AgentRouter (agentrouter.org 内部 LLM API 网关控制台, New-API)
+# 2026-09-28: www.agentrouter.org 前端全出站域名勘探
+#   第一方: *.agentrouter.org (控制台 + /api/ 同源网关 API; 无独立 API 子域)
+#   第三方: cloud.umami.is (唯一活跃的站外分析流量; googletagmanager.com 在页面里已注释, 无流量)
+# 建议策略: AgentRouter (url-test 自动选可达本站最快节点; 2026-09-28 全节点实测: 中国香港 136ms 最快, 中国台湾 850ms 最慢)
+
+# — AgentRouter —
+DOMAIN-SUFFIX,agentrouter.org
+
+# — 站点统计 (如希望直连可删本行) —
+DOMAIN,cloud.umami.is
