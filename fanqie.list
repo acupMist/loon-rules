@@ -1,0 +1,32 @@
+# Loon: 番茄小说作家专区 / 阅读端 → 番茄作家
+# 公司网（YH-STAFF / YH-STAFF-5G）会拦作家后台。本列表必须排在国内直连
+#（direct.list、REGION_SPLITTER、GEOIP,CN）之前，否则会被 DIRECT 抢走。
+# 阅读端与作家后台共用同一套域名，家里走代理也只是多一跳，可接受。
+
+DOMAIN-SUFFIX,fanqienovel.com
+DOMAIN-SUFFIX,fqnovel.com
+DOMAIN-SUFFIX,fqnovelvod.com
+DOMAIN-SUFFIX,snssdk.com
+DOMAIN-SUFFIX,byteimg.com
+DOMAIN-SUFFIX,bytecdn.cn
+DOMAIN-SUFFIX,bytedance.com
+DOMAIN-SUFFIX,bytedance.net
+DOMAIN-SUFFIX,bytednsdoc.com
+DOMAIN-SUFFIX,byteoversea.com
+DOMAIN-SUFFIX,ibytedtos.com
+DOMAIN-SUFFIX,ibyteimg.com
+DOMAIN-SUFFIX,pstatp.com
+DOMAIN-SUFFIX,toutiao.com
+DOMAIN-SUFFIX,toutiaoimg.com
+DOMAIN-SUFFIX,toutiaocdn.com
+DOMAIN-SUFFIX,toutiaoapi.com
+DOMAIN-SUFFIX,snssdkapi.com
+DOMAIN-SUFFIX,bytegecko.com
+DOMAIN-SUFFIX,bytescm.com
+DOMAIN-SUFFIX,volccdn.com
+DOMAIN-SUFFIX,volces.com
+DOMAIN-SUFFIX,volcengine.com
+DOMAIN-SUFFIX,zijieapi.com
+DOMAIN-SUFFIX,feelgood.cn
+DOMAIN-KEYWORD,fanqienovel
+DOMAIN-KEYWORD,fqnovel

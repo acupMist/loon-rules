@@ -22,6 +22,7 @@ Loon 远程分流规则，按业务拆开订阅。本地 `[Rule]` 只留 `FINAL`
 | `qqmusic.list` | QQ 音乐 | `QQ` |
 | `devproxy.list` | Docker / JetBrains | `🚀 策略选择` |
 | `paypal.list` | PayPal / Braintree / Venmo 核心域 | `PayPal` |
+| `fanqie.list` | 番茄小说作家专区与阅读端（字节 CDN） | `番茄作家`（公司网切代理节点；家里可切 DIRECT） |
 | `direct.list` | 银海、Apple、部分国内直连 | `DIRECT` |
 
 
@@ -32,6 +33,8 @@ Meta Muse 必须美国出口：订 `muse.list` → `Muse`，并把原先绑到 G
 打 Gemini 时务必让 `gemini.list` 与 `google.list` **同一出口（家宽）**；只把 `gemini.google.com` 走家宽、登录/API 走日本节点，会被判区域限制。
 
 TikTok 不要用本仓库，继续用 kelee / blackmatrix7 的 TikTok 列表，并排在 `douyin.list` **之后**（本地规则若再写 `DOMAIN-KEYWORD,snssdk` 仍会抢走 TikTok）。
+
+`fanqie.list` 覆盖作家后台（`fanqienovel.com`）和字节 CDN。公司网会拦这些国内域名，所以本列表必须排在 `direct.list`、`REGION_SPLITTER` 和本地 `GEOIP,CN,DIRECT` 之前。策略组用 `番茄作家`：公司 Wi-Fi 选一个代理节点，家里选 `DIRECT`。
 
 不要再用 `https://yfamilys.com/rule/ai.list` 当「其余 AI」：那份会把 `stripe.com`、`sentry.io`、`www.bing.com`、`challenges.cloudflare.com` 以及 DigitalOcean / Vultr 整段 ASN 送去美国。Claude 用本仓库 `claude.list`。
 
