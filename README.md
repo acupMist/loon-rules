@@ -16,7 +16,7 @@ Loon 远程分流规则，按业务拆开订阅。本地 `[Rule]` 只留 `FINAL`
 | `openai.list` | ChatGPT / Sora | `OpenAI` |
 | `grok.list` | xAI / X / SpaceX（**不含** meta.ai） | `Grok` |
 | `muse.list` | Meta Muse / Meta AI（美国限定） | `Muse`（美国优先；勿绑 Grok/日本） |
-| `claude.list` | Anthropic / Claude，不含支付/验证码/云厂商 ASN | `其余AI` 或独立 Claude 组 |
+| `claude.list` | Anthropic / Claude，含网页端/API/Artifacts | `Claude` |
 | `cursor.list` | Cursor / Anysphere | `美国手动策略` |
 | `douyin.list` | 抖音国内，**不含 TikTok 共用域** | `抖音策略`（家里可 DIRECT） |
 | `qqmusic.list` | QQ 音乐 | `QQ` |
@@ -70,7 +70,7 @@ https://raw.githubusercontent.com/acupMist/loon-rules/main/openai.list, policy=O
 https://raw.githubusercontent.com/acupMist/loon-rules/main/paypal.list, policy=PayPal, tag=PayPal, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/grok.list, policy=Grok, tag=Grok, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/muse.list, policy=Muse, tag=Muse, enabled=true
-https://raw.githubusercontent.com/acupMist/loon-rules/main/claude.list, policy=其余AI, tag=Claude, enabled=true
+https://raw.githubusercontent.com/acupMist/loon-rules/main/claude.list, policy=Claude, tag=Claude, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/cursor.list, policy=美国手动策略, tag=Cursor, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/douyin.list, policy=抖音策略, tag=抖音, enabled=true
 ```
