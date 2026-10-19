@@ -2,19 +2,27 @@
 # 公司网（YH-STAFF / YH-STAFF-5G）会拦作家后台。本列表必须排在国内直连
 #（direct.list、REGION_SPLITTER、GEOIP,CN）之前，否则会被 DIRECT 抢走。
 # 阅读端与作家后台共用同一套域名，家里走代理也只是多一跳，可接受。
+# 2026-10-19: 补作家页 CSP 里的静态/监控域（fqnovelstatic、yhgfb-cn-static、
+# byted-static、bytegoofy、bytetos、bytedanceapi、ibytedapm）。
 
 DOMAIN-SUFFIX,fanqienovel.com
 DOMAIN-SUFFIX,fqnovel.com
 DOMAIN-SUFFIX,fqnovelvod.com
+DOMAIN-SUFFIX,fqnovelstatic.com
 DOMAIN-SUFFIX,snssdk.com
 DOMAIN-SUFFIX,byteimg.com
 DOMAIN-SUFFIX,bytecdn.cn
 DOMAIN-SUFFIX,bytedance.com
 DOMAIN-SUFFIX,bytedance.net
+DOMAIN-SUFFIX,bytedanceapi.com
 DOMAIN-SUFFIX,bytednsdoc.com
 DOMAIN-SUFFIX,byteoversea.com
+DOMAIN-SUFFIX,byted-static.com
+DOMAIN-SUFFIX,bytegoofy.com
+DOMAIN-SUFFIX,bytetos.com
 DOMAIN-SUFFIX,ibytedtos.com
 DOMAIN-SUFFIX,ibyteimg.com
+DOMAIN-SUFFIX,ibytedapm.com
 DOMAIN-SUFFIX,pstatp.com
 DOMAIN-SUFFIX,toutiao.com
 DOMAIN-SUFFIX,toutiaoimg.com
@@ -28,5 +36,6 @@ DOMAIN-SUFFIX,volces.com
 DOMAIN-SUFFIX,volcengine.com
 DOMAIN-SUFFIX,zijieapi.com
 DOMAIN-SUFFIX,feelgood.cn
+DOMAIN-SUFFIX,yhgfb-cn-static.com
 DOMAIN-KEYWORD,fanqienovel
 DOMAIN-KEYWORD,fqnovel

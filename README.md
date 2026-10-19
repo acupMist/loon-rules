@@ -72,7 +72,16 @@ https://raw.githubusercontent.com/acupMist/loon-rules/main/grok.list, policy=Gro
 https://raw.githubusercontent.com/acupMist/loon-rules/main/muse.list, policy=Muse, tag=Muse, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/claude.list, policy=Claude, tag=Claude, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/cursor.list, policy=美国手动策略, tag=Cursor, enabled=true
+https://raw.githubusercontent.com/acupMist/loon-rules/main/fanqie.list, policy=番茄作家, tag=番茄作家, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/douyin.list, policy=抖音策略, tag=抖音, enabled=true
 ```
+
+`fanqie.list` 必须排在 `direct.list` 和 `REGION_SPLITTER` 之前。策略组示例：
+
+```
+番茄作家 = select,日本自动,美国自动,香港自动,DIRECT,台湾自动,新国自动
+```
+
+公司 Wi-Fi 用日本自动（美国节点 TLS 会被掐）；家里可在 Loon 里把本组切回 `DIRECT`。
 
 Mac 上 Gmail / Google / OpenAI / Grok 已经在订本仓库；加上 `claude.list`、`cursor.list` 后，本地 `[Rule]` 里对应的 DOMAIN 可以删掉。
