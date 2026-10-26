@@ -7,10 +7,11 @@
 hostname = tft-app.cdtft.cn, shequ.cdtft.cn, metroact.cdtft.cn, ams-cdn.cdtft.cn
 
 [Script]
-http-response ^https:\/\/tft-app\.cdtft\.cn\/gateway-customer\/tftapp\/tft-ams\/api\/appAd\/getOfficialAndBakAdvByPositionCode script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=false, timeout=10, tag=天府通广告位
-http-response ^https:\/\/shequ\.cdtft\.cn\/gateway-customer\/appConfig-customer-service\/message\/(popup|float\/window|activity\/messages) script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通弹窗浮窗
-http-response ^https:\/\/shequ\.cdtft\.cn\/gateway-customer\/appConfig-customer-service\/marketing\/pageMarketing script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通乘车码营销
-http-response ^https:\/\/tft-app\.cdtft\.cn\/gateway-customer\/apbase-customer-service\/affiliation\/popup script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=false, timeout=10, tag=天府通附属弹窗
-http-response ^https:\/\/metroact\.cdtft\.cn\/apkpex\/app\/discountCard\/getMergePopup script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=false, timeout=10, tag=天府通折扣卡弹窗
-http-response ^https:\/\/shequ\.cdtft\.cn\/gateway-customer\/wda\/(calendar|daily\/) script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通福利日历
-http-response ^https:\/\/ams-cdn\.cdtft\.cn\/prod\/\d{8}\/\d+_\d+\.json script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通首页布局
+http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*getOfficialAndBakAdvByPositionCode script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通广告位
+http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*message\/(popup|float\/window|activity\/messages) script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通弹窗浮窗
+http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*pageMarketing script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通乘车码营销
+http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*affiliation\/popup script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通附属弹窗
+http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*discountCard\/getMergePopup script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通折扣卡弹窗
+http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*getQrCodePageFunctionList script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通乘车码页功能
+http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*\/wda\/(calendar|daily\/) script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通福利日历
+http-response ^https?:\/\/[^\/]*cdtft\.cn\/prod\/\d{8}\/\d+_\d+\.json script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通首页布局

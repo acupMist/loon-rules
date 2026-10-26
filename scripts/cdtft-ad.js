@@ -7,12 +7,15 @@
  * 不拦截乘车码、支付、账户、地图。
  */
 
-const REJECT_PATHS = [
-  "/gateway-customer/tftapp/tft-ams/api/appAd/getOfficialAndBakAdvByPositionCode",
-  "/gateway-customer/appConfig-customer-service/message/popup",
-  "/gateway-customer/appConfig-customer-service/message/float/window",
-  "/gateway-customer/apbase-customer-service/affiliation/popup",
-  "/apkpex/app/discountCard/getMergePopup",
+// 加密接口无法改字段。回 HTTP 204 时客户端会当失败并继续用缓存，
+// 所以改回 200 + 空成功体（与明文接口同一套 status）。
+const EMPTY_OK_MARKS = [
+  "getOfficialAndBakAdvByPositionCode",
+  "message/popup",
+  "message/float/window",
+  "affiliation/popup",
+  "discountCard/getMergePopup",
+  "getQrCodePageFunctionList",
 ];
 
 const HOME_DROP = {
@@ -56,8 +59,8 @@ function finish(body, status) {
   });
 }
 
-function reject() {
-  finish("", 204);
+function emptyOk() {
+  finish(JSON.stringify({ data: null, message: "", status: "00000", success: true }));
 }
 
 function emptyList() {
@@ -110,23 +113,23 @@ function main() {
   const path = pathOf($request && $request.url);
   const raw = bodyText();
 
-  if (REJECT_PATHS.some(function (p) { return path.indexOf(p) >= 0; })) {
-    reject();
+  if (EMPTY_OK_MARKS.some(function (p) { return path.indexOf(p) >= 0; })) {
+    emptyOk();
     return;
   }
-  if (path.indexOf("/marketing/pageMarketing") >= 0) {
+  if (path.indexOf("pageMarketing") >= 0) {
     emptyMarketing();
     return;
   }
-  if (path.indexOf("/message/activity/messages") >= 0) {
+  if (path.indexOf("activity/messages") >= 0) {
     emptyList();
     return;
   }
-  if (path.indexOf("/gateway-customer/wda/daily/") >= 0) {
+  if (path.indexOf("/wda/daily/") >= 0) {
     emptyDaily();
     return;
   }
-  if (path.indexOf("/gateway-customer/wda/calendar") >= 0) {
+  if (path.indexOf("/wda/calendar") >= 0) {
     finish(JSON.stringify({ data: [], success: true, message: "success", status: "00000" }));
     return;
   }
