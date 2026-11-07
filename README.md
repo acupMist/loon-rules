@@ -23,7 +23,8 @@ Loon 远程分流规则，按业务拆开订阅。本地 `[Rule]` 只留 `FINAL`
 | `devproxy.list` | Docker / JetBrains | `🚀 策略选择` |
 | `paypal.list` | PayPal / Braintree / Venmo 核心域 | `PayPal` |
 | `fanqie.list` | 番茄小说作家专区与阅读端（字节 CDN） | `番茄作家`（公司网切代理节点；家里可切 DIRECT） |
-| `direct.list` | 银海、Apple、部分国内直连 | `DIRECT` |
+| `yinhai.list` | 银海办公域（yinhai.com / yinhaiyun.com / yinhaisoft.com） | `DIRECT` |
+| `direct.list` | Apple、部分国内直连 | `DIRECT` |
 
 
 **重要：** `grok.list` 已去掉 `meta.ai`；若旧缓存仍命中 Grok，请刷新远程规则或把 `muse.list` 排在 `grok.list` 之前。
@@ -47,10 +48,11 @@ Loon 匹配顺序：**本地规则 > 插件规则 > 远程订阅**。
 推荐本地 `[Rule]`（**不要把 FINAL 改成 DIRECT**）：
 
 ```
-DOMAIN-SUFFIX,yinhaiyun.com,DIRECT
 GEOIP,CN,DIRECT
 FINAL,美国自动场景
 ```
+
+银海办公域订 `yinhai.list`（`DIRECT`），不要再在本地重复写 `DOMAIN-SUFFIX,yinhaiyun.com`。
 
 `GEOIP,CN,DIRECT` 只能写在本地规则里，不能放进远程 list。
 
@@ -73,6 +75,7 @@ https://raw.githubusercontent.com/acupMist/loon-rules/main/muse.list, policy=Mus
 https://raw.githubusercontent.com/acupMist/loon-rules/main/claude.list, policy=Claude, tag=Claude, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/cursor.list, policy=美国手动策略, tag=Cursor, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/fanqie.list, policy=番茄作家, tag=番茄作家, enabled=true
+https://raw.githubusercontent.com/acupMist/loon-rules/main/yinhai.list, policy=DIRECT, tag=银海, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/douyin.list, policy=抖音策略, tag=抖音, enabled=true
 ```
 

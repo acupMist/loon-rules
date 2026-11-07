@@ -1,0 +1,10 @@
+# Loon: 银海办公域 → DIRECT
+# 覆盖 yinhai.com / yinhaiyun.com / yinhaisoft.com。
+# 内网 IP（172.20 / 192.168.66 等）不写在本文件，继续靠本地 GEOIP 与 bypass-tun。
+# 2026-11-07: 与本机 Loon 策略组「银海域名」对齐，并补 yinhaisoft.com。
+
+DOMAIN-SUFFIX,yinhai.com
+DOMAIN-SUFFIX,yinhaiyun.com
+DOMAIN-SUFFIX,yinhaisoft.com
+DOMAIN-KEYWORD,yinhaiyun
+DOMAIN-KEYWORD,yinhaisoft
