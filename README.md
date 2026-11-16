@@ -95,7 +95,7 @@ Mac 上 Gmail / Google / OpenAI / Grok 已经在订本仓库；加上 `claude.li
 | 文件 | 用途 |
 |---|---|
 | `plugins/genshin-luna.plugin` | 米游社原神每日签到 |
-| `plugins/cdtft-ad.plugin` | 天府通去广告（弹窗、浮窗、首页横幅与营销卡片；不拦乘车码） |
+| `plugins/cdtft-ad.plugin` | 天府通去广告（弹窗、浮窗、首页广告与福利推荐、乘车码页滚动广告、财富菜单与资讯、优惠券角标；不拦乘车码） |
 
 天府通插件订阅：
 
@@ -103,4 +103,6 @@ Mac 上 Gmail / Google / OpenAI / Grok 已经在订本仓库；加上 `claude.li
 https://raw.githubusercontent.com/acupMist/loon-rules/main/plugins/cdtft-ad.plugin
 ```
 
-装上后在 Loon 里给 `tft-app.cdtft.cn`、`shequ.cdtft.cn`、`metroact.cdtft.cn`、`ams-cdn.cdtft.cn` 打开 HTTPS 解密。首页宫格里的「村糖购 / 出行头条 / 先学后付」会去掉，「公积金」「更多」以及乘车码、天府通卡、充值保留。
+装上后在 Loon 里给 `tft-app.cdtft.cn`、`shequ.cdtft.cn`、`metroact.cdtft.cn`、`ams-cdn.cdtft.cn`、`smpex.cdtft.cn` 打开 HTTPS 解密。首页宫格里的「村糖购 / 出行头条 / 先学后付」会去掉，「公积金」「更多」以及乘车码、天府通卡、充值保留；底部「财富」菜单会被移除（依据 2026-11-16 TFTAPP 9.6.0 抓包）。
+
+脚本地址固定到具体 commit（`cdn.jsdelivr.net/gh/acupMist/loon-rules@<sha>`），改动脚本后必须重新钉一次 commit，避免 jsdelivr 对 `@main` 的长缓存让 Loon 拿到旧脚本。

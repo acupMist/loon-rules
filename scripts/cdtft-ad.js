@@ -1,21 +1,26 @@
 /**
  * 天府通（TFTAPP）去广告 — Loon http-response 改写
  *
- * 依据 2026-10-26 抓包（TFTAPP/9.5.0）。明文接口直接清空广告字段；
- * 首页布局 JSON 只删广告模块，保留乘车码 / 天府通卡 / 充值。
- * 加密接口无法改字段，原样拒绝（空 body + 非 2xx），客户端按失败处理、不弹广告。
+ * 依据 2026-11-16 抓包（TFTAPP/9.6.0）。明文接口直接清空广告字段；
+ * 首页布局 JSON 删除广告模块、福利推荐与底部“财富”菜单，保留乘车码 / 天府通卡 / 充值。
+ * 加密接口无法改字段，统一回 200 + 空成功体，客户端按“无广告”处理。
  * 不拦截乘车码、支付、账户、地图。
  */
 
 // 加密接口无法改字段。回 HTTP 204 时客户端会当失败并继续用缓存，
 // 所以改回 200 + 空成功体（与明文接口同一套 status）。
+// appAd/ 覆盖 tft-ams 下所有广告位方法；后面是弹窗、浮窗、乘车码页、财富页与优惠券角标。
 const EMPTY_OK_MARKS = [
+  "appAd/",
   "getOfficialAndBakAdvByPositionCode",
   "message/popup",
   "message/float/window",
   "affiliation/popup",
   "discountCard/getMergePopup",
   "getQrCodePageFunctionList",
+  "getWealthPageFunctionList",
+  "myCouponCountGateway",
+  "discountAndCouponNum",
 ];
 
 const HOME_DROP = {
@@ -31,6 +36,11 @@ const GRID_DROP_TITLES = {
   村糖购: true,
   出行头条: true,
   先学后付: true,
+};
+
+// 底部菜单删除项（navigationAll[].functionId），wealth 即“财富”
+const NAV_DROP_FUNCTION_IDS = {
+  wealth: true,
 };
 
 function pathOf(url) {
@@ -81,6 +91,11 @@ function emptyDaily() {
   finish(JSON.stringify({ data: [], success: true, message: "success", status: "00000" }));
 }
 
+// smpex 财富资讯接口是另一套约定：status 为数字 0、message 固定“成功”
+function emptySmpexNews() {
+  finish(JSON.stringify({ data: [], message: "成功", status: 0 }));
+}
+
 function trimHome(raw) {
   let data;
   try {
@@ -94,7 +109,13 @@ function trimHome(raw) {
     return;
   }
   data.forEach(function (block) {
-    if (!block || !Array.isArray(block.content)) return;
+    if (!block) return;
+    if (Array.isArray(block.navigationAll)) {
+      block.navigationAll = block.navigationAll.filter(function (nav) {
+        return !nav || !NAV_DROP_FUNCTION_IDS[nav.functionId];
+      });
+    }
+    if (!Array.isArray(block.content)) return;
     block.content = block.content.filter(function (mod) {
       if (!mod || !mod.modelType) return true;
       if (HOME_DROP[mod.modelType]) return false;
@@ -119,6 +140,13 @@ function main() {
   }
   if (path.indexOf("pageMarketing") >= 0) {
     emptyMarketing();
+    return;
+  }
+  if (
+    path.indexOf("getRedStarNewsByTypeId") >= 0 ||
+    path.indexOf("getFinancialInformationType") >= 0
+  ) {
+    emptySmpexNews();
     return;
   }
   if (path.indexOf("activity/messages") >= 0) {
