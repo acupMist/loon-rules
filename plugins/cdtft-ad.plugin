@@ -1,13 +1,15 @@
 #!name=天府通去广告
-#!desc=去掉天府通 App 开屏/弹窗/浮窗/首页广告、福利推荐、乘车码页滚动广告、财富页与资讯流、优惠券角标，并移除底部“财富”菜单。乘车码、充值、余额、地图不拦截。依据 2026-11-16 TFTAPP 9.6.0 抓包。
+#!desc=去掉天府通 App 开屏/弹窗/浮窗/首页广告、福利推荐、乘车码页滚动广告、财富页与资讯流、优惠券角标，并移除底部“财富”菜单。广告接口用 reject-dict 短路加脚本双保险。乘车码、充值、余额、地图不拦截。依据 2026-11-16 TFTAPP 9.6.0 抓包。
 #!author=acupMist
 #!homepage=https://github.com/acupMist/loon-rules
 
 [MITM]
 hostname = tft-app.cdtft.cn, shequ.cdtft.cn, metroact.cdtft.cn, ams-cdn.cdtft.cn, smpex.cdtft.cn
 
+[URL Rewrite]
+^https?://tft-app\.cdtft\.cn/gateway-customer/tftapp/tft-ams/api/appAd/getOfficialAndBakAdvByPositionCode reject-dict
+
 [Script]
-http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*tft-ams\/api\/appAd\/ script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通广告位
 http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*message\/(popup|float\/window|activity\/messages) script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通弹窗浮窗
 http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*pageMarketing script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通乘车码营销
 http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*affiliation\/popup script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通附属弹窗
@@ -18,3 +20,5 @@ http-response ^https?:\/\/smpex\.cdtft\.cn\/.*get(RedStarNewsByTypeId|FinancialI
 http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*(myCouponCountGateway|discountAndCouponNum) script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通优惠券角标
 http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*\/wda\/(calendar|daily\/) script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通福利日历
 http-response ^https?:\/\/[^\/]*cdtft\.cn\/prod\/\d{8}\/\d+_\d+\.json script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通首页布局
+http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*tft-ams\/api\/appAd\/ script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通广告位
+http-response ^https?:\/\/tft-app\.cdtft\.cn\/.*appAd\/getOfficialAndBakAdvByPositionCode script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通广告位备份
