@@ -7,14 +7,14 @@
 hostname = tft-app.cdtft.cn, shequ.cdtft.cn, metroact.cdtft.cn, ams-cdn.cdtft.cn, smpex.cdtft.cn
 
 [Script]
-http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*tft-ams\/api\/appAd\/ script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通广告位
-http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*message\/(popup|float\/window|activity\/messages) script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通弹窗浮窗
-http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*pageMarketing script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通乘车码营销
-http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*affiliation\/popup script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通附属弹窗
-http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*discountCard\/getMergePopup script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通折扣卡弹窗
-http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*getQrCodePageFunctionList script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通乘车码页功能
-http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*getWealthPageFunctionList script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通财富页功能
-http-response ^https?:\/\/smpex\.cdtft\.cn\/.*get(RedStarNewsByTypeId|FinancialInformationType) script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通财富资讯
-http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*(myCouponCountGateway|discountAndCouponNum) script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通优惠券角标
-http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*\/wda\/(calendar|daily\/) script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通福利日历
-http-response ^https?:\/\/[^\/]*cdtft\.cn\/prod\/\d{8}\/\d+_\d+\.json script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@main/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通首页布局
+http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*tft-ams\/api\/appAd\/ script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通广告位
+http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*message\/(popup|float\/window|activity\/messages) script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通弹窗浮窗
+http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*pageMarketing script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通乘车码营销
+http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*affiliation\/popup script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通附属弹窗
+http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*discountCard\/getMergePopup script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通折扣卡弹窗
+http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*getQrCodePageFunctionList script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通乘车码页功能
+http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*getWealthPageFunctionList script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通财富页功能
+http-response ^https?:\/\/smpex\.cdtft\.cn\/.*get(RedStarNewsByTypeId|FinancialInformationType) script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通财富资讯
+http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*(myCouponCountGateway|discountAndCouponNum) script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通优惠券角标
+http-response ^https?:\/\/[^\/]*cdtft\.cn\/.*\/wda\/(calendar|daily\/) script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通福利日历
+http-response ^https?:\/\/[^\/]*cdtft\.cn\/prod\/\d{8}\/\d+_\d+\.json script-path=https://cdn.jsdelivr.net/gh/acupMist/loon-rules@2575f795c26b6876259f86968ca13f2421fec943/scripts/cdtft-ad.js, requires-body=true, timeout=10, tag=天府通首页布局
