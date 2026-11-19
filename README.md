@@ -96,6 +96,7 @@ Mac 上 Gmail / Google / OpenAI / Grok 已经在订本仓库；加上 `claude.li
 |---|---|
 | `plugins/genshin-luna.plugin` | 米游社原神每日签到 |
 | `plugins/cdtft-ad.plugin` | 天府通去广告（弹窗、浮窗、首页广告与福利推荐、乘车码页滚动广告、财富菜单与资讯、优惠券角标；不拦乘车码） |
+| `plugins/agentrouter-user-agent.plugin` | AgentRouter 模型请求 User-Agent 改写（按接口区分 Claude Code / Codex，可自定义） |
 
 天府通插件订阅：
 
@@ -106,3 +107,38 @@ https://raw.githubusercontent.com/acupMist/loon-rules/main/plugins/cdtft-ad.plug
 装上后在 Loon 里给 `tft-app.cdtft.cn`、`shequ.cdtft.cn`、`metroact.cdtft.cn`、`ams-cdn.cdtft.cn`、`smpex.cdtft.cn` 打开 HTTPS 解密。首页宫格里的「村糖购 / 出行头条 / 先学后付」会去掉，「公积金」「更多」以及乘车码、天府通卡、充值保留；底部「财富」菜单会被移除（依据 2026-11-16 TFTAPP 9.6.0 抓包）。
 
 脚本地址固定到具体 commit（`cdn.jsdelivr.net/gh/acupMist/loon-rules@<sha>`），改动脚本后必须重新钉一次 commit，避免 jsdelivr 对 `@main` 的长缓存让 Loon 拿到旧脚本。
+
+### AgentRouter 模型请求 UA
+
+插件订阅：
+
+```
+https://raw.githubusercontent.com/acupMist/loon-rules/feat/agentrouter-user-agent/plugins/agentrouter-user-agent.plugin
+```
+
+适用于 **ZCode、OpenCode、Pi、Claude Code、Codex** 发往 `https://agentrouter.org` 或 `https://www.agentrouter.org` 的模型 API 请求。按接口而非客户端名称选择 UA：
+
+| 接口 | 参数 | 默认 UA |
+|---|---|---|
+| `/v1/messages` 及子路径（含 `count_tokens`） | `claudeUA` | `claude-cli/2.1.197 (external, cli)` |
+| 其余 `/v1/` 接口（含 `responses`、`chat/completions`、`models`） | `codexUA` | `codex_cli_rs/0.170.0` |
+
+默认值只是可修改的客户端格式示例，**不是 AgentRouter 官方指定或保证可用的固定值**。Claude 格式参考[客户端 API 请求记录](https://github.com/anthropics/claude-code/issues/72879)；Codex 使用[官方 UA 前缀](https://github.com/openai/codex/blob/main/codex-rs/login/src/auth/default_client.rs)，版本参考本机 CLI，省略系统/终端后缀。在插件参数里填写自己的完整 UA 即可覆盖，某项留空则保留该接口的原 UA；「启用 UA 改写」可整体关闭。
+
+安装后：
+
+1. 在 Loon 开启 HTTPS 解密，启用插件的 `agentrouter.org`、`www.agentrouter.org` 两个域名，安装并信任 Loon CA。
+2. 确保客户端请求实际经过 Loon。容器、远程服务器或客户端的云端中转请求不一定经过本机；请求发往其他域名时本插件不匹配。
+3. Node.js 客户端若报证书错误，给启动它的进程设置 `NODE_EXTRA_CA_CERTS=/绝对路径/Loon-CA.pem`；Codex 可设置 `SSL_CERT_FILE=/绝对路径/包含受信根证书的CA文件.pem`。不要用关闭 TLS 校验的方式解决。
+4. 重新发起一次模型请求，在 Loon 请求记录中核对**改写后的请求头**（如果界面有区分，查看替换请求头，而不是原始请求头）。
+
+插件仅返回请求头：保留 Authorization、API Key、Cookie 和其他头，不读取正文、不保存鉴权信息、不修改响应或分流策略。网页登录、`/api/` 控制台、`/v1beta/` Gemini API、其他 API 域名及 WebSocket 请求不改。HTTPS 解密涉及整个目标域名，脚本范围才限定为 `/v1/`。本插件只改 UA，不改变服务端权限、额度或模型可用性。
+
+本地测试（无需依赖）：
+
+```
+node --check scripts/agentrouter-user-agent.js
+node --test tests/agentrouter-user-agent.test.js
+```
+
+本地脚本及匹配检查不等同于 Loon 实机验收；安装后仍需核对请求头。插件内脚本地址固定到具体 commit，更新脚本时需同步更新该地址。

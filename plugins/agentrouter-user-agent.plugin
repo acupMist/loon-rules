@@ -1,0 +1,15 @@
+#!name=AgentRouter 模型请求 UA
+#!desc=按接口改写 AgentRouter 模型请求的 User-Agent：Messages 用 Claude Code UA，其余 /v1/ 接口用 Codex UA。覆盖 ZCode、OpenCode、Pi、Claude Code、Codex 发出的直连本站 API 请求；两种 UA 均可修改，留空则保留原值。不读取正文、不改鉴权、不改分流。需要 HTTPS 解密与客户端信任 Loon CA。
+#!author=acupMist
+#!homepage=https://github.com/acupMist/loon-rules
+
+[Argument]
+claudeUA=input, "claude-cli/2.1.197 (external, cli)", tag=Claude Code UA, desc=/v1/messages 及其子路径使用的 User-Agent；留空保留原值；填写单行 ASCII 文本
+codexUA=input, "codex_cli_rs/0.170.0", tag=Codex UA, desc=其余 /v1/ 接口使用的 User-Agent；留空保留原值；填写单行 ASCII 文本
+rewrite=switch, true, tag=启用 UA 改写, desc=关闭后不执行请求头改写
+
+[MITM]
+hostname = agentrouter.org, www.agentrouter.org
+
+[Script]
+http-request ^https://(?:www\.)?agentrouter\.org(?::443)?/v1/[^#]*$ script-path=https://raw.githubusercontent.com/acupMist/loon-rules/89ed47cdf41ec8ee34c5603dfd96fcfc9cb4fa07/scripts/agentrouter-user-agent.js, requires-body=false, timeout=5, tag=AgentRouter模型UA, argument=[{claudeUA},{codexUA}], enable={rewrite}
