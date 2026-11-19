@@ -27,9 +27,7 @@ function run(url, options = {}) {
   const calls = [];
   const logs = [];
   const request = { url, method: options.method || "POST", headers: originalHeaders };
-  Object.defineProperty(request, "body", {
-    get() { throw new Error("Request body must never be read"); },
-  });
+  if (Object.prototype.hasOwnProperty.call(options, "body")) request.body = options.body;
   const context = {
     $request: request,
     $done(result) { calls.push(result); },
@@ -42,9 +40,13 @@ function run(url, options = {}) {
   assert.equal(logs.join(" ").includes("test-only"), false, "No credential logging");
   const result = JSON.parse(JSON.stringify(calls[0]));
   if (result.headers) {
-    assert.deepEqual(Object.keys(result), ["headers"]);
     for (const [name, value] of Object.entries(originalHeaders)) {
-      if (name.toLowerCase() !== "user-agent") assert.equal(result.headers[name], value);
+      if (name.toLowerCase() === "user-agent") continue;
+      if (name.toLowerCase() === "content-length" && String(value) === "0" && Object.prototype.hasOwnProperty.call(options, "body") && options.body) {
+        assert.equal(Object.keys(result.headers).some((k) => k.toLowerCase() === "content-length"), false);
+        continue;
+      }
+      assert.equal(result.headers[name], value);
     }
     assert.equal(originalHeaders["user-agent"], beforeHeaders["user-agent"]);
     assert.deepEqual(Object.keys(result.headers).filter(name => name.toLowerCase() === "user-agent"), ["User-Agent"]);
@@ -126,10 +128,38 @@ for (const method of ["OPTIONS", "CONNECT"]) {
   test("Skip " + method, () => assert.deepEqual(run("https://agentrouter.org/v1/messages", { method }), {}));
 }
 
-test("Plugin is header-only, arguments match script, and MITM is narrowly scoped", () => {
+test("DSH Responses keeps JSON body and original Content-Length", () => {
+  const body = '{"model":"gpt-6.1-sol","input":"hello"}';
+  const result = run("https://agentrouter.org/v1/responses", {
+    headers: {
+      "user-agent": "deepseek-harness/0.2.2-rc.5 (+https://github.com/deepseek-ai/deepseek-harness) dsh-profile/desktop",
+      "content-length": String(body.length),
+    },
+    body,
+  });
+  assert.equal(result.headers["User-Agent"], defaults.codexUA);
+  assert.equal(result.headers["content-length"], String(body.length));
+  assert.equal(result.body, body);
+});
+
+test("Drop Loon-injected Content-Length 0 when body is present", () => {
+  const body = '{"model":"gpt-6.1-sol","input":"hello"}';
+  const result = run("https://agentrouter.org/v1/responses", {
+    headers: {
+      "user-agent": "deepseek-harness/0.2.2-rc.5 (+https://github.com/deepseek-ai/deepseek-harness) dsh-profile/desktop",
+      "content-length": "0",
+    },
+    body,
+  });
+  assert.equal(result.headers["User-Agent"], defaults.codexUA);
+  assert.equal(result.body, body);
+  assert.equal(Object.keys(result.headers).some((k) => k.toLowerCase() === "content-length"), false);
+});
+
+test("Plugin captures body, arguments match script, and MITM is narrowly scoped", () => {
   const rule = plugin.split("\n").find(line => line.startsWith("http-request "));
   const regex = new RegExp(rule.split(" ")[1]);
-  assert.match(rule, /requires-body=false/);
+  assert.match(rule, /requires-body=true/);
   assert.match(rule, /argument=\[\{claudeUA\},\{codexUA\}\]/);
   assert.match(rule, /enable=\{rewrite\}/);
   assert.match(plugin, /hostname = agentrouter\.org, www\.agentrouter\.org\n/);

@@ -2,7 +2,9 @@
  * AgentRouter · 模型请求 User-Agent 改写（仅 http-request）
  *
  * 插件 Argument：claudeUA、codexUA。留空时保留对应接口的原始 UA。
- * 只返回 headers，不读取正文，不保存或打印 Cookie / Token。
+ * 改写头时必须原样回传正文。Loon Mac 在 requires-body=false 时会把
+ * Content-Length 写成 0，上游即报 unexpected end of JSON input。
+ * 不保存或打印 Cookie / Token / 正文。
  */
 
 const LOG_TAG = "[agentrouter-ua]";
@@ -10,6 +12,30 @@ const DEFAULT_UA = {
   claudeUA: "claude-cli/2.1.197 (external, cli)",
   codexUA: "codex_cli_rs/0.170.0",
 };
+
+function headerValue(headers, name) {
+  const want = name.toLowerCase();
+  let found;
+  Object.keys(headers || {}).forEach(function (key) {
+    if (key.toLowerCase() === want) found = headers[key];
+  });
+  return found;
+}
+
+function deleteHeader(headers, name) {
+  const want = name.toLowerCase();
+  Object.keys(headers).forEach(function (key) {
+    if (key.toLowerCase() === want) delete headers[key];
+  });
+}
+
+function hasBody(body) {
+  if (body == null) return false;
+  if (typeof body === "string") return body.length > 0;
+  if (typeof body.byteLength === "number") return body.byteLength > 0;
+  if (typeof body.length === "number") return body.length > 0;
+  return true;
+}
 
 function rewriteRequest() {
   if (typeof $request === "undefined" || !$request) return {};
@@ -40,11 +66,17 @@ function rewriteRequest() {
   if (!userAgent) return {};
 
   const headers = Object.assign({}, $request.headers || {});
-  Object.keys(headers).forEach(function (name) {
-    if (name.toLowerCase() === "user-agent") delete headers[name];
-  });
+  deleteHeader(headers, "user-agent");
   headers["User-Agent"] = userAgent;
-  return { headers: headers };
+
+  const body = $request.body;
+  if (hasBody(body) && String(headerValue(headers, "content-length") || "") === "0") {
+    deleteHeader(headers, "content-length");
+  }
+
+  const result = { headers: headers };
+  if (typeof body !== "undefined") result.body = body;
+  return result;
 }
 
 let result = {};
