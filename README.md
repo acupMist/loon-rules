@@ -130,9 +130,11 @@ https://raw.githubusercontent.com/acupMist/loon-rules/feat/agentrouter-user-agen
 1. 在 Loon 开启 HTTPS 解密，启用插件的 `agentrouter.org`、`www.agentrouter.org` 两个域名，安装并信任 Loon CA。
 2. 确保客户端请求实际经过 Loon。容器、远程服务器或客户端的云端中转请求不一定经过本机；请求发往其他域名时本插件不匹配。
 3. Node.js 客户端若报证书错误，给启动它的进程设置 `NODE_EXTRA_CA_CERTS=/绝对路径/Loon-CA.pem`；Codex 可设置 `SSL_CERT_FILE=/绝对路径/包含受信根证书的CA文件.pem`。不要用关闭 TLS 校验的方式解决。
-4. 重新发起一次模型请求，在 Loon 请求记录中核对**改写后的请求头**（如果界面有区分，查看替换请求头，而不是原始请求头）。
+4. 重新发起一次模型请求，在 Loon 请求记录中核对**改写后的请求头**（如果界面有区分，查看替换请求头，而不是原始请求头）。改写后 `Content-Length` 必须仍是原文长度，不能是 `0`。
 
-插件仅返回请求头：保留 Authorization、API Key、Cookie 和其他头，不读取正文、不保存鉴权信息、不修改响应或分流策略。网页登录、`/api/` 控制台、`/v1beta/` Gemini API、其他 API 域名及 WebSocket 请求不改。HTTPS 解密涉及整个目标域名，脚本范围才限定为 `/v1/`。本插件只改 UA，不改变服务端权限、额度或模型可用性。
+Loon Mac 实测（2026-11-19）：DSH 发往 `/v1/responses` 的原始 UA 是 `deepseek-harness/0.2.2-rc.5 (+https://github.com/deepseek-ai/deepseek-harness) dsh-profile/desktop`。脚本已能改成 Codex UA；但 `requires-body=false` 时替换请求头里的 `Content-Length` 会变成 `0`，上游即报 `unexpected end of JSON input`。当前版本改为捕获并回传正文。
+
+插件只改 User-Agent 并原样回传正文：保留 Authorization、API Key、Cookie 和其他头，不保存鉴权信息、不修改响应或分流策略。网页登录、`/api/` 控制台、`/v1beta/` Gemini API、其他 API 域名及 WebSocket 请求不改。HTTPS 解密涉及整个目标域名，脚本范围才限定为 `/v1/`。本插件只改 UA，不改变服务端权限、额度或模型可用性。
 
 本地测试（无需依赖）：
 
@@ -141,4 +143,4 @@ node --check scripts/agentrouter-user-agent.js
 node --test tests/agentrouter-user-agent.test.js
 ```
 
-本地脚本及匹配检查不等同于 Loon 实机验收；安装后仍需核对请求头。插件内脚本地址固定到具体 commit，更新脚本时需同步更新该地址。
+本地脚本及匹配检查不等同于 Loon 实机验收；安装后仍需核对改写后的请求头和 Content-Length。插件内脚本地址固定到具体 commit，更新脚本时需同步更新该地址。

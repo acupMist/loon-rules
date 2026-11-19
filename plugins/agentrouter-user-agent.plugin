@@ -1,5 +1,5 @@
 #!name=AgentRouter 模型请求 UA
-#!desc=按接口改写 AgentRouter 模型请求的 User-Agent：Messages 用 Claude Code UA，其余 /v1/ 接口用 Codex UA。覆盖 ZCode、OpenCode、Pi、Claude Code、Codex 发出的直连本站 API 请求；两种 UA 均可修改，留空则保留原值。不读取正文、不改鉴权、不改分流。需要 HTTPS 解密与客户端信任 Loon CA。
+#!desc=按接口改写 AgentRouter 模型请求的 User-Agent：Messages 用 Claude Code UA，其余 /v1/ 接口用 Codex UA。覆盖 ZCode、OpenCode、Pi、Claude Code、Codex、DSH 发出的直连本站 API 请求；两种 UA 均可修改，留空则保留原值。必须捕获并回传正文，否则 Loon Mac 会把 Content-Length 写成 0。不改鉴权、不改分流。需要 HTTPS 解密与客户端信任 Loon CA。
 #!author=acupMist
 #!homepage=https://github.com/acupMist/loon-rules
 
@@ -12,4 +12,4 @@ rewrite=switch, true, tag=启用 UA 改写, desc=关闭后不执行请求头改�
 hostname = agentrouter.org, www.agentrouter.org
 
 [Script]
-http-request ^https://(?:www\.)?agentrouter\.org(?::443)?/v1/[^#]*$ script-path=https://raw.githubusercontent.com/acupMist/loon-rules/89ed47cdf41ec8ee34c5603dfd96fcfc9cb4fa07/scripts/agentrouter-user-agent.js, requires-body=false, timeout=5, tag=AgentRouter模型UA, argument=[{claudeUA},{codexUA}], enable={rewrite}
+http-request ^https://(?:www\.)?agentrouter\.org(?::443)?/v1/[^#]*$ script-path=https://raw.githubusercontent.com/acupMist/loon-rules/8138eac0fd56c2d36c2e21bcd106649ba5e6fc64/scripts/agentrouter-user-agent.js, requires-body=true, timeout=15, tag=AgentRouter模型UA, argument=[{claudeUA},{codexUA}], enable={rewrite}
