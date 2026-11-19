@@ -42,9 +42,15 @@ function run(url, options = {}) {
   if (result.headers) {
     for (const [name, value] of Object.entries(originalHeaders)) {
       if (name.toLowerCase() === "user-agent") continue;
-      if (name.toLowerCase() === "content-length" && String(value) === "0" && Object.prototype.hasOwnProperty.call(options, "body") && options.body) {
-        assert.equal(Object.keys(result.headers).some((k) => k.toLowerCase() === "content-length"), false);
-        continue;
+      if (name.toLowerCase() === "content-length") {
+        if (Object.prototype.hasOwnProperty.call(options, "body") && options.body) {
+          assert.equal(result.headers["Content-Length"], String(options.body.length));
+          continue;
+        }
+        if (String(value) === "0") {
+          assert.equal(Object.keys(result.headers).some((k) => k.toLowerCase() === "content-length"), false);
+          continue;
+        }
       }
       assert.equal(result.headers[name], value);
     }
@@ -138,7 +144,7 @@ test("DSH Responses keeps JSON body and original Content-Length", () => {
     body,
   });
   assert.equal(result.headers["User-Agent"], defaults.codexUA);
-  assert.equal(result.headers["content-length"], String(body.length));
+  assert.equal(result.headers["Content-Length"], String(body.length));
   assert.equal(result.body, body);
 });
 
@@ -153,22 +159,40 @@ test("Drop Loon-injected Content-Length 0 when body is present", () => {
   });
   assert.equal(result.headers["User-Agent"], defaults.codexUA);
   assert.equal(result.body, body);
-  assert.equal(Object.keys(result.headers).some((k) => k.toLowerCase() === "content-length"), false);
+  assert.equal(result.headers["Content-Length"], String(body.length));
 });
 
-test("Plugin captures body, arguments match script, and MITM is narrowly scoped", () => {
-  const rule = plugin.split("\n").find(line => line.startsWith("http-request "));
-  const regex = new RegExp(rule.split(" ")[1]);
-  assert.match(rule, /requires-body=true/);
-  assert.match(rule, /argument=\[\{claudeUA\},\{codexUA\}\]/);
-  assert.match(rule, /enable=\{rewrite\}/);
+test("Already correct UA is left unchanged", () => {
+  assert.deepEqual(run("https://agentrouter.org/v1/responses", {
+    headers: { "user-agent": defaults.codexUA, "content-length": "12" },
+    body: '{"ok":true}',
+  }), {});
+});
+
+test("Plugin captures body on chat paths and skips body on listing paths", () => {
+  const rules = plugin.split("\n").filter(line => line.startsWith("http-request "));
+  assert.equal(rules.length, 2);
+  const bodyRule = rules.find(line => /requires-body=true/.test(line));
+  const listRule = rules.find(line => /requires-body=false/.test(line));
+  assert.ok(bodyRule && listRule);
+  const bodyRegex = new RegExp(bodyRule.split(" ")[1]);
+  const listRegex = new RegExp(listRule.split(" ")[1]);
+  assert.match(bodyRule, /argument=\[\{claudeUA\},\{codexUA\}\]/);
   assert.match(plugin, /hostname = agentrouter\.org, www\.agentrouter\.org\n/);
   for (const [key, value] of Object.entries(defaults)) {
     assert.ok(plugin.includes(key + '=input, "' + value + '"'));
   }
-  assert.ok(regex.test("https://agentrouter.org/v1/messages?beta=true"));
-  assert.ok(regex.test("https://www.agentrouter.org:443/v1/responses"));
-  assert.equal(regex.test("https://agentrouter.org/api/user/self"), false);
-  assert.equal(regex.test("https://agentrouter.org.evil.test/v1/messages"), false);
-  assert.equal(regex.test("https://agentrouter.org/v1beta/models"), false);
+  assert.ok(bodyRegex.test("https://agentrouter.org/v1/messages?beta=true"));
+  assert.ok(bodyRegex.test("https://agentrouter.org/v1/messages/count_tokens"));
+  assert.ok(bodyRegex.test("https://www.agentrouter.org:443/v1/responses"));
+  assert.ok(bodyRegex.test("https://agentrouter.org/v1/chat/completions"));
+  assert.equal(bodyRegex.test("https://agentrouter.org/v1/models"), false);
+  assert.equal(bodyRegex.test("https://agentrouter.org/v1/messages-other"), false);
+  assert.ok(listRegex.test("https://agentrouter.org/v1/models"));
+  assert.ok(listRegex.test("https://agentrouter.org/v1/messages-other"));
+  assert.equal(listRegex.test("https://agentrouter.org/v1/responses"), false);
+  assert.equal(listRegex.test("https://agentrouter.org/v1/messages?beta=true"), false);
+  assert.equal(bodyRegex.test("https://agentrouter.org/api/user/self"), false);
+  assert.equal(bodyRegex.test("https://agentrouter.org.evil.test/v1/messages"), false);
+  assert.equal(bodyRegex.test("https://agentrouter.org/v1beta/models"), false);
 });

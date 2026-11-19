@@ -4,7 +4,7 @@
  * 插件 Argument：claudeUA、codexUA。留空时保留对应接口的原始 UA。
  * 改写头时必须原样回传正文。Loon Mac 在 requires-body=false 时会把
  * Content-Length 写成 0，上游即报 unexpected end of JSON input。
- * 不保存或打印 Cookie / Token / 正文。
+ * 目标 UA 已正确时不改写。不保存或打印 Cookie / Token / 正文。
  */
 
 const LOG_TAG = "[agentrouter-ua]";
@@ -29,12 +29,12 @@ function deleteHeader(headers, name) {
   });
 }
 
-function hasBody(body) {
-  if (body == null) return false;
-  if (typeof body === "string") return body.length > 0;
-  if (typeof body.byteLength === "number") return body.byteLength > 0;
-  if (typeof body.length === "number") return body.length > 0;
-  return true;
+function bodyLength(body) {
+  if (body == null) return 0;
+  if (typeof body === "string") return body.length;
+  if (typeof body.byteLength === "number") return body.byteLength;
+  if (typeof body.length === "number") return body.length;
+  return -1;
 }
 
 function rewriteRequest() {
@@ -64,13 +64,18 @@ function rewriteRequest() {
   }
   const userAgent = value.trim();
   if (!userAgent) return {};
+  if (String(headerValue($request.headers, "user-agent") || "") === userAgent) return {};
 
   const headers = Object.assign({}, $request.headers || {});
   deleteHeader(headers, "user-agent");
   headers["User-Agent"] = userAgent;
 
   const body = $request.body;
-  if (hasBody(body) && String(headerValue(headers, "content-length") || "") === "0") {
+  const length = bodyLength(body);
+  if (length > 0) {
+    deleteHeader(headers, "content-length");
+    headers["Content-Length"] = String(length);
+  } else if (length === 0 && String(headerValue(headers, "content-length") || "") === "0") {
     deleteHeader(headers, "content-length");
   }
 
