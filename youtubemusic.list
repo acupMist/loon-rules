@@ -1,0 +1,25 @@
+# Loon: YouTube / YouTube Music → 📺 YouTube
+# 2026-11-27：music.youtube.com 走美国 url-test（HY2 等 Psychz）时，
+# 页面能开但返回「所在区域无法使用」。本列表只放域名，出口绑 📺 YouTube。
+# 必须排在 geosite-youtube、google.list、geosite-google 之前。
+# 片头广告不在这里，订 plugins/youtubemusic.plugin。
+#
+# 2026-11-27 实测能打开 music.youtube.com 的节点（其余美/日/港机房多数被判地区不可用）：
+# 台湾家宽6、台湾家宽2-Gemini、台湾家宽A4-Netflix、台湾家宽-稳定A1、台湾家宽-稳定A3、
+# 美国高速1、美国高速3、马来西亚2。
+# 策略组示例见 README。节点名变了要改筛选正则，别写死进本列表。
+
+DOMAIN-SUFFIX,youtube.com
+DOMAIN-SUFFIX,youtu.be
+DOMAIN-SUFFIX,googlevideo.com
+DOMAIN-SUFFIX,ytimg.com
+DOMAIN-SUFFIX,ggpht.com
+DOMAIN-SUFFIX,youtube-nocookie.com
+DOMAIN-SUFFIX,youtubekids.com
+DOMAIN-SUFFIX,withyoutube.com
+DOMAIN-SUFFIX,youtube.googleapis.com
+DOMAIN-SUFFIX,youtubei.googleapis.com
+DOMAIN-SUFFIX,youtubeembeddedplayer.googleapis.com
+DOMAIN-SUFFIX,wide-youtube.l.google.com
+DOMAIN-SUFFIX,youtube-ui.l.google.com
+DOMAIN,yt3.googleusercontent.com

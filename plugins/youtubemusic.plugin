@@ -1,0 +1,30 @@
+#!name=YouTube Music 去片头广告
+#!desc=去掉 YouTube Music / YouTube 网页片头广告。播放请求写入 isInlinePlaybackNoAd，播放响应删掉 adPlacements/playerAds，并短路 pagead、pcs、stats/ads。不解密 googlevideo，避免开播卡顿。QUIC/UDP 443 拒绝后回落 TCP，脚本才能看到播放请求。依据 2026-11-27 Mac Chrome 抓包。
+#!author=acupMist
+#!homepage=https://github.com/acupMist/loon-rules
+#!date=2026-11-27
+
+[Rule]
+# 插件规则优先于远程订阅。写在 youtubemusic.list 的域名代理规则之前生效。
+AND,((DOMAIN,youtubei.googleapis.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
+AND,((DOMAIN,youtubei-att.googleapis.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
+AND,((DOMAIN-SUFFIX,youtube.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
+AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
+
+[URL Rewrite]
+# 网页版片头广告配置。返回空 JSON，不能改成 protobuf。
+^https:\/\/(?:www\.|m\.|music\.)?youtube\.com\/youtubei\/v1\/player\/ad_break(?:\?[^#]*)?$ reject-dict
+# 2026-11-27 实锤片头广告走这些接口。
+^https:\/\/www\.youtube\.com\/pagead\/ reject-200
+^https:\/\/www\.youtube\.com\/pcs\/ reject-200
+^https:\/\/www\.youtube\.com\/api\/stats\/ads reject-200
+^https:\/\/www\.youtube\.com\/api\/stats\/qoe reject-200
+^https:\/\/(?:www\.)?googleadservices\.com\/ reject-200
+
+[Script]
+# 上游脚本：imthnio/loon-youtube （播放 JSON 去广告参数）。本仓库不内嵌该脚本。
+http-request ^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/(?:player|get_watch)(?:\?[^#]*)?$ script-path=https://raw.githubusercontent.com/imthnio/loon-youtube/main/Scripts/YouTube/request.min.js,requires-body=true,binary-body-mode=true,timeout=10,tag=YouTube播放请求去广告
+http-response ^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/(?:player|get_watch)(?:\?[^#]*)?$ script-path=https://raw.githubusercontent.com/imthnio/loon-youtube/main/Scripts/YouTube/response.min.js,requires-body=true,binary-body-mode=true,timeout=10,tag=YouTube播放去广告
+
+[MITM]
+hostname = music.youtube.com, www.youtube.com, m.youtube.com, youtube.com, s.youtube.com, youtubei.googleapis.com, youtubei-att.googleapis.com
