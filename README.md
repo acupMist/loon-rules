@@ -20,6 +20,7 @@ Loon 远程分流规则，按业务拆开订阅。本地 `[Rule]` 只留 `FINAL`
 | `cursor.list` | Cursor / Anysphere | `美国手动策略` |
 | `douyin.list` | 抖音国内，**不含 TikTok 共用域** | `抖音策略`（家里可 DIRECT） |
 | `qqmusic.list` | QQ 音乐 | `QQ` |
+| `youtubemusic.list` | YouTube / YouTube Music（不含片头广告逻辑） | `📺 YouTube`（不要绑美国 url-test） |
 | `devproxy.list` | Docker / JetBrains | `🚀 策略选择` |
 | `paypal.list` | PayPal / Braintree / Venmo 核心域 | `PayPal` |
 | `fanqie.list` | 番茄小说作家专区与阅读端（字节 CDN） | `番茄作家`（公司网切代理节点；家里可切 DIRECT） |
@@ -67,6 +68,7 @@ FINAL,美国自动场景
 ```
 https://raw.githubusercontent.com/acupMist/loon-rules/main/gmail.list, policy=✉️ 谷歌邮件, tag=谷歌邮件, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/gemini.list, policy=Gemini出口, tag=Gemini, enabled=true
+https://raw.githubusercontent.com/acupMist/loon-rules/main/youtubemusic.list, policy=📺 YouTube, tag=YouTubeMusic, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/google.list, policy=Gemini出口, tag=谷歌本地, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/openai.list, policy=OpenAI, tag=OpenAI本地, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/paypal.list, policy=PayPal, tag=PayPal, enabled=true
@@ -77,6 +79,14 @@ https://raw.githubusercontent.com/acupMist/loon-rules/main/cursor.list, policy=�
 https://raw.githubusercontent.com/acupMist/loon-rules/main/fanqie.list, policy=番茄作家, tag=番茄作家, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/yinhai.list, policy=DIRECT, tag=银海, enabled=true
 https://raw.githubusercontent.com/acupMist/loon-rules/main/douyin.list, policy=抖音策略, tag=抖音, enabled=true
+```
+
+`youtubemusic.list` 必须排在 `google.list` 和 geosite-youtube 之前。2026-11-27 实测：美国 HY 等机房出口会被 YouTube Music 判「所在区域无法使用」，策略组不要直接用美国 url-test。片头广告另订下面的插件。策略组示例（筛选正则按自己的节点名改）：
+
+```
+YouTube可用筛选 = NameRegex,cj,✈️✈️✈️,Local, FilterKey = "^(?=.*((台湾家宽6(?![0-9])|台湾家宽2-Gemini|台湾家宽A4-Netflix|台湾家宽-稳定A1(?![0-9])|台湾家宽-稳定A3(?![0-9])|美国高速1(?![0-9])|美国高速3(?![0-9])|马来西亚2(?![0-9])))).*"
+YouTube自动 = url-test,YouTube可用筛选,interval = 300,tolerance = 50
+📺 YouTube = select,YouTube自动,🏠 家宽节点,🚀 手动选择
 ```
 
 `fanqie.list` 必须排在 `direct.list` 和 `REGION_SPLITTER` 之前。策略组示例：
@@ -96,6 +106,7 @@ Mac 上 Gmail / Google / OpenAI / Grok 已经在订本仓库；加上 `claude.li
 |---|---|
 | `plugins/genshin-luna.plugin` | 米游社原神每日签到 |
 | `plugins/cdtft-ad.plugin` | 天府通去广告（弹窗、浮窗、首页广告与福利推荐、乘车码页滚动广告、财富菜单与资讯、优惠券角标；不拦乘车码） |
+| `plugins/youtubemusic.plugin` | YouTube Music 去片头广告（不解密视频流） |
 
 天府通插件订阅：
 
@@ -106,3 +117,11 @@ https://raw.githubusercontent.com/acupMist/loon-rules/main/plugins/cdtft-ad.plug
 装上后在 Loon 里给 `tft-app.cdtft.cn`、`shequ.cdtft.cn`、`metroact.cdtft.cn`、`ams-cdn.cdtft.cn`、`smpex.cdtft.cn` 打开 HTTPS 解密。首页宫格里的「村糖购 / 出行头条 / 先学后付」会去掉，「公积金」「更多」以及乘车码、天府通卡、充值保留；底部「财富」菜单会被移除（依据 2026-11-16 TFTAPP 9.6.0 抓包）。
 
 脚本地址固定到具体 commit（`cdn.jsdelivr.net/gh/acupMist/loon-rules@<sha>`），改动脚本后必须重新钉一次 commit，避免 jsdelivr 对 `@main` 的长缓存让 Loon 拿到旧脚本。
+
+YouTube Music 插件订阅：
+
+```
+https://raw.githubusercontent.com/acupMist/loon-rules/main/plugins/youtubemusic.plugin
+```
+
+装上后信任 Loon 证书。插件会拒绝 YouTube 的 QUIC，让播放请求走 TCP 才能被改写。视频 CDN（`googlevideo.com`）不解密。播放去广告脚本仍引用 `imthnio/loon-youtube` 的 `request.min.js` / `response.min.js`，不内嵌进本仓库。订完后把已经打开的 YouTube Music 标签页关掉重开，旧连接不会自动套上新脚本。
